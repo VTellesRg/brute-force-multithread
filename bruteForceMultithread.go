@@ -51,7 +51,7 @@ func writeResultToFile(result, elapsed string) error {
 }
 
 // Função que tenta encontrar a senha correta usando força bruta.
-func singleProcess(initialText, chars string, length int, pwd string, flag *int32, wg *sync.WaitGroup, start time.Time) {
+func singleProcess(initialText, chars string, length int, pwd string, flag *int32, wg *sync.WaitGroup, resultChan chan <- string) {
     defer wg.Done()
     for i := 1; i <= length; i++ {
         for _, text := range generateText(chars, i) {
@@ -61,11 +61,7 @@ func singleProcess(initialText, chars string, length int, pwd string, flag *int3
             }
             if textToMD5(combinedText) == pwd {
                 atomic.StoreInt32(flag, 1)
-                err := writeResultToFile(combinedText, time.Since(start).String())
-                if err != nil {
-                    fmt.Println("Erro ao escrever no arquivo:", err)
-                }
-                fmt.Printf("A senha é %s\n", combinedText)
+                resultChan <- combinedText
                 return
             }
         }
@@ -83,25 +79,38 @@ func main() {
     fmt.Print("Digite o hash MD5: ")
     fmt.Scanln(&pwd)
 
+    // Canal para receber a senha quebrada
+    resultChan := make(chan string, 1)
+
     // Inicia a medição do tempo
     start := time.Now()
 
     for _, c := range chars {
         wg.Add(1)
-        go singleProcess(string(c), chars, length, pwd, &flag, &wg, start)
+        go singleProcess(string(c), chars, length, pwd, &flag, &wg, resultChan)
     }
 
     wg.Wait()
-
+    close(resultChan)
     // Calcula o tempo de processamento
-    elapsed := time.Since(start)
+    elapsed := time.Since(start).String()
 
+    var result string
     if flag == 1 {
+        result = <-resultChan
         fmt.Println("Senha quebrada com sucesso!")
     } else {
-        fmt.Println("Não foi possível quebrar a senha.")
+        result = "Não foi possível quebrar a senha."
+        fmt.Println(result)
     }
-
     // Exibe o tempo de processamento
     fmt.Printf("Tempo de processamento: %s\n", elapsed)
+
+     // Escreve a senha quebrada e o tempo de processamento no arquivo txt
+     err := writeResultToFile(result, elapsed)
+     if err != nil {
+         fmt.Println("Erro ao escrever no arquivo:", err)
+     } else {
+         fmt.Println("Resultado salvo em resultado.txt")
+     }
 }

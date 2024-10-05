@@ -4,6 +4,7 @@ import (
     "crypto/md5"
     "encoding/hex"
     "fmt"
+    "os"
     "sync"
     "sync/atomic"
     "time"
@@ -33,8 +34,24 @@ func textToMD5(text string) string {
     return hex.EncodeToString(hash[:])
 }
 
+// Função que escreve o resultado no arquivo resultado.txt
+func writeResultToFile(result, elapsed string) error {
+    file, err := os.Create("resultado.txt")
+    if err != nil {
+        return err
+    }
+    defer file.Close()
+
+    _, err = file.WriteString(fmt.Sprintf("Senha: %s\nTempo de processamento: %s\n", result, elapsed))
+    if err != nil {
+        return err
+    }
+
+    return nil
+}
+
 // Função que tenta encontrar a senha correta usando força bruta.
-func singleProcess(initialText, chars string, length int, pwd string, flag *int32, wg *sync.WaitGroup) {
+func singleProcess(initialText, chars string, length int, pwd string, flag *int32, wg *sync.WaitGroup, start time.Time) {
     defer wg.Done()
     for i := 1; i <= length; i++ {
         for _, text := range generateText(chars, i) {
@@ -44,6 +61,10 @@ func singleProcess(initialText, chars string, length int, pwd string, flag *int3
             }
             if textToMD5(combinedText) == pwd {
                 atomic.StoreInt32(flag, 1)
+                err := writeResultToFile(combinedText, time.Since(start).String())
+                if err != nil {
+                    fmt.Println("Erro ao escrever no arquivo:", err)
+                }
                 fmt.Printf("A senha é %s\n", combinedText)
                 return
             }
@@ -54,13 +75,10 @@ func singleProcess(initialText, chars string, length int, pwd string, flag *int3
 func main() {
     var wg sync.WaitGroup
     var flag int32 = 0
-    chars := "abcdefghijklmnopqrstuvwxyz"
-    //length := 5
+    chars := "abcdefghijlmnopqrstuvwxzABCDEFGHIJLMNOPQRSTUVWXZ0123456789#$%&*+-.*="
     var length int
     fmt.Print("Digite o tamanho da senha: ")
     fmt.Scanln(&length)
-    //pwd := "5d41402abc4b2a76b9719d911017c592" // Exemplo de hash MD5 para "hello"
-    // Solicita o hash MD5 ao usuário
     var pwd string
     fmt.Print("Digite o hash MD5: ")
     fmt.Scanln(&pwd)
@@ -70,7 +88,7 @@ func main() {
 
     for _, c := range chars {
         wg.Add(1)
-        go singleProcess(string(c), chars, length, pwd, &flag, &wg)
+        go singleProcess(string(c), chars, length, pwd, &flag, &wg, start)
     }
 
     wg.Wait()

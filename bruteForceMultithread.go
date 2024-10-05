@@ -1,13 +1,14 @@
 package main
 
 import (
-    "crypto/md5"
-    "encoding/hex"
-    "fmt"
-    "os"
-    "sync"
-    "sync/atomic"
-    "time"
+	"crypto/md5"
+	"encoding/hex"
+	"fmt"
+	"os"
+	"runtime"
+	"sync"
+	"sync/atomic"
+	"time"
 )
 
 // Função que gera todas as combinações possíveis de uma string de comprimento n usando os caracteres fornecidos.
@@ -69,6 +70,7 @@ func singleProcess(initialText, chars string, length int, pwd string, flag *int3
 }
 
 func main() {
+    runtime.GOMAXPROCS(8)
     var wg sync.WaitGroup
     var flag int32 = 0
     chars := "abcdefghijlmnopqrstuvwxzABCDEFGHIJLMNOPQRSTUVWXZ0123456789#$%&*+-.*="

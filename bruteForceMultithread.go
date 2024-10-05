@@ -36,7 +36,7 @@ func textToMD5(text string) string {
 
 // Função que escreve o resultado no arquivo resultado.txt
 func writeResultToFile(result, elapsed string) error {
-    file, err := os.OpenFile("resultado.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+    file, err := os.Create("resultado.txt")
     if err != nil {
         return err
     }

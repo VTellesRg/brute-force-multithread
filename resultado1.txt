@@ -1,0 +1,2 @@
+Senha: a#b*z
+Tempo de processamento: 14.3010993s

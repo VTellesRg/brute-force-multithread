@@ -69,7 +69,7 @@ func worker(chars string, pwd string, flag *int32, wg *sync.WaitGroup, jobs <-ch
 }
 
 func main() {
-    runtime.GOMAXPROCS(8)
+    runtime.GOMAXPROCS(10)
     var wg sync.WaitGroup
     var flag int32 = 0
     chars := "abcdefghijlmnopqrstuvwxzABCDEFGHIJLMNOPQRSTUVWXZ0123456789#$%&*+-.*="

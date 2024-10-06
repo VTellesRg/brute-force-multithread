@@ -1,2 +1,6 @@
 Senha: rz&nn
 Tempo de processamento: 2m11.9820261s
+Senha: GL9wA
+Tempo de processamento: 4m2.9908198s
+1)Senha: G0*6Xi
+Tempo de processamento: 5h11m13.2084338s

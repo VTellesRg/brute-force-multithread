@@ -4,3 +4,7 @@ Senha: GL9wA
 Tempo de processamento: 4m2.9908198s
 1)Senha: G0*6Xi
 Tempo de processamento: 5h11m13.2084338s
+2)Senha: VnGdlZ
+Tempo de processamento: 6h59m24.5347809s
+Senha: BruteF
+Tempo de processamento: 4h7m2.7540097s

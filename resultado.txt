@@ -1,3 +1,4 @@
+TESTES:
 Senha: rz&nn
 Tempo de processamento: 2m11.9820261s
 Senha: GL9wA
@@ -6,7 +7,7 @@ Senha: G0*6Xi
 Tempo de processamento: 5h11m13.2084338s
 Senha: VnGdlZ
 Tempo de processamento: 6h59m24.5347809s
-
+----------------------------------------------
 5 digitos: 
 6 nucleos ryzen 5 3500x 3.6GHz
 1) 

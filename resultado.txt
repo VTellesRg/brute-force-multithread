@@ -1,2 +1,33 @@
-Senha: ilv-
-Tempo de processamento: 434.4961ms
+TESTES:
+Senha: rz&nn
+Tempo de processamento: 2m11.9820261s
+Senha: GL9wA
+Tempo de processamento: 4m2.9908198s
+Senha: G0*6Xi
+Tempo de processamento: 5h11m13.2084338s
+Senha: VnGdlZ
+Tempo de processamento: 6h59m24.5347809s
+----------------------------------------------
+5 digitos: 
+6 nucleos ryzen 5 3500x 3.6GHz
+1) 
+Senha: sr-fi
+Tempo de processamento: 4m15.3025652s
+2)
+Senha: 12024
+Tempo de processamento: 12m4.5249917s
+3)
+Senha: TcI24
+Tempo de processamento: 10m13.9783214s
+4)
+Senha: #Sem2
+Tempo de processamento: 14m10.1713384s
+
+6 digitos:
+10 nucleos processador intel vpro 3.4GHz
+1)
+Senha: BruteF
+Tempo de processamento: 4h7m2.7540097s
+2)
+Senha: -ZrTbD
+Tempo de processamento: 11h10m20.4480972s

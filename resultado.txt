@@ -7,19 +7,20 @@ Tempo de processamento: 5h11m13.2084338s
 Senha: VnGdlZ
 Tempo de processamento: 6h59m24.5347809s
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+5 digitos: 
+6 nucleos ryzen 5 3500x 3.6GHz
+1) 
+Senha: sr-fi
+Tempo de processamento: 4m15.3025652s
+2)
+Senha: 12024
+Tempo de processamento: 12m4.5249917s
+3)
+Senha: TcI24
+Tempo de processamento: 10m13.9783214s
+4)
+Senha: #Sem2
+Tempo de processamento: 14m10.1713384s
 
 6 digitos:
 10 nucleos processador intel vpro 3.4GHz

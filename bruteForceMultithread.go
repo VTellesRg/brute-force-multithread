@@ -1,3 +1,4 @@
+
 package main
 
 import (
@@ -9,8 +10,18 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+    "os/exec"
 )
-
+// Função que impede a suspensão do sistema operacional.
+func preventSleep() {
+	cmd := exec.Command("caffeinate")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	err := cmd.Start()
+	if err != nil {
+		fmt.Println("Erro ao tentar impedir a suspensão:", err)
+	}
+}
 // Função que gera todas as combinações possíveis de uma string de comprimento n usando os caracteres fornecidos.
 func generateText(chars string, length int, jobs chan<- string) {
     var generate func(prefix string, length int)
@@ -69,12 +80,9 @@ func worker(chars string, hash string, flag *int32, wg *sync.WaitGroup, jobs <-c
 }
 
 func main() {
-    runtime.GOMAXPROCS(runtime.NumCPU())
-    
-    specialChars := "#$%&*+-.*="  // Caracteres especiais
-    numericChars := "0123456789"   // Números
-    chars := "0123456789#$%&*+-.*=abcdefghijlmnopqrstuvwxzABCDEFGHIJLMNOPQRSTUVWXZ"  // Todos os caracteres
-    
+    preventSleep()
+    runtime.GOMAXPROCS(10)
+    chars := "0123456789#$%&*+-.*=abcdefghijlmnopqrstuvwxzABCDEFGHIJLMNOPQRSTUVWXZ"
     var length int
     fmt.Print("Digite o tamanho máximo da senha: ")
     fmt.Scanln(&length)
@@ -96,36 +104,21 @@ func main() {
         // Canal para enviar a senha quebrada
         resultChan := make(chan string, 1)
 
-        // Criação do pool de workers
-        numWorkers := runtime.NumCPU()
-
-        // Dois núcleos dedicados para caracteres especiais
-        for i := 0; i < 2; i++ {
-            wg.Add(1)
-            jobs := make(chan string, 100)
-            go generateText(specialChars, length, jobs)
-            go worker(specialChars, hash, &flag, &wg, jobs, resultChan)
-        }
-
-        // Dois núcleos dedicados para números
-        for i := 0; i < 2; i++ {
-            wg.Add(1)
-            jobs := make(chan string, 100)
-            go generateText(numericChars, length, jobs)
-            go worker(numericChars, hash, &flag, &wg, jobs, resultChan)
-        }
-
-        // Restante dos núcleos dedicados para todos os caracteres
-        remainingWorkers := numWorkers - 4
-        for i := 0; i < remainingWorkers; i++ {
-            wg.Add(1)
-            jobs := make(chan string, 100)
-            go generateText(chars, length, jobs)
-            go worker(chars, hash, &flag, &wg, jobs, resultChan)
-        }
+        // Canal de trabalhos (combinações)
+        jobs := make(chan string, 100)
 
         // Inicia a medição do tempo
         start := time.Now()
+
+        // Criação do pool de workers
+        numWorkers := runtime.NumCPU()
+        for i := 0; i < numWorkers; i++ {
+            wg.Add(1)
+            go worker(chars, hash, &flag, &wg, jobs, resultChan)
+        }
+
+        // Gerar combinações de senha e enviá-las para o canal de jobs
+        go generateText(chars, length, jobs)
 
         // Espera todos os workers terminarem
         wg.Wait()

@@ -14,7 +14,7 @@ import (
 )
 // Função que impede a suspensão do sistema operacional.
 func preventSleep() {
-	cmd := exec.Command("caffeinate")
+	cmd := exec.Command("SetThreadExecutionState")
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	err := cmd.Start()

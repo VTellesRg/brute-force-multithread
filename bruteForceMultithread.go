@@ -12,22 +12,37 @@ import (
 )
 
 // Função que gera todas as combinações possíveis de uma string de comprimento n usando os caracteres fornecidos.
-func generateText(chars string, length int, jobs chan<- string) {
-    var generate func(prefix string, length int)
+func generateTextWithPrefix(prefix, chars string, length int, jobs chan<- string) {
+    var generate func(current string, length int)
 
-    generate = func(prefix string, length int) {
+    generate = func(current string, length int) {
         if length == 0 {
-            jobs <- prefix
+            jobs <- prefix + current
             return
         }
         for _, c := range chars {
-            generate(prefix+string(c), length-1)
+            generate(current+string(c), length-1)
         }
     }
 
-    for i := 1; i <= length; i++ {
-        generate("", i)
+    generate("", length-1) // Gera a partir do comprimento - 1, pois o prefixo já é parte da senha
+    close(jobs)
+}
+
+func generateText(chars string, length int, jobs chan<- string) {
+    var generate func(current string, length int)
+
+    generate = func(current string, length int) {
+        if length == 0 {
+            jobs <- current
+            return
+        }
+        for _, c := range chars {
+            generate(current+string(c), length-1)
+        }
     }
+
+    generate("", length)
     close(jobs)
 }
 
@@ -96,26 +111,29 @@ func main() {
         // Canal para enviar a senha quebrada
         resultChan := make(chan string, 1)
 
+        // Inicia a medição do tempo
+        start := time.Now()
+
         // Criação do pool de workers
         numWorkers := runtime.NumCPU()
 
-        // Dois núcleos dedicados para caracteres especiais
+        // Workers dedicados a caracteres especiais como primeiro caractere
         for i := 0; i < 2; i++ {
             wg.Add(1)
             jobs := make(chan string, 100)
-            go generateText(specialChars, length, jobs)
-            go worker(specialChars, hash, &flag, &wg, jobs, resultChan)
+            go generateTextWithPrefix(string(specialChars[i]), chars, length, jobs)
+            go worker(chars, hash, &flag, &wg, jobs, resultChan)
         }
 
-        // Dois núcleos dedicados para números
+        // Workers dedicados a números como primeiro caractere
         for i := 0; i < 2; i++ {
             wg.Add(1)
             jobs := make(chan string, 100)
-            go generateText(numericChars, length, jobs)
-            go worker(numericChars, hash, &flag, &wg, jobs, resultChan)
+            go generateTextWithPrefix(string(numericChars[i]), chars, length, jobs)
+            go worker(chars, hash, &flag, &wg, jobs, resultChan)
         }
 
-        // Restante dos núcleos dedicados para todos os caracteres
+        // Restante dos núcleos para gerar todas as combinações
         remainingWorkers := numWorkers - 4
         for i := 0; i < remainingWorkers; i++ {
             wg.Add(1)
@@ -123,9 +141,6 @@ func main() {
             go generateText(chars, length, jobs)
             go worker(chars, hash, &flag, &wg, jobs, resultChan)
         }
-
-        // Inicia a medição do tempo
-        start := time.Now()
 
         // Espera todos os workers terminarem
         wg.Wait()

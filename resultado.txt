@@ -31,3 +31,13 @@ Tempo de processamento: 4h7m2.7540097s
 2)
 Senha: -ZrTbD
 Tempo de processamento: 11h10m20.4480972s
+
+Hash: a3a5475a60b1bf181b94460241809faf
+Senha: sr-fi
+Tempo de processamento: 9m53.2501501s
+
+
+Hash: 5fd2524092de9576f7341dc9aa5a53ae
+Senha: 12024
+Tempo de processamento: 759.2622ms
+

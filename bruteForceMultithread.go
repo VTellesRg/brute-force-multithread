@@ -10,18 +10,22 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
-    "os/exec"
+    "syscall"
 )
 // Função que impede a suspensão do sistema operacional.
+
+var (
+	kernel32                  = syscall.NewLazyDLL("kernel32.dll")
+	setThreadExecutionState   = kernel32.NewProc("SetThreadExecutionState")
+	ES_CONTINUOUS             = 0x80000000
+	ES_SYSTEM_REQUIRED        = 0x00000001
+	ES_DISPLAY_REQUIRED       = 0x00000002
+)
+
 func preventSleep() {
-	cmd := exec.Command("SetThreadExecutionState")
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	err := cmd.Start()
-	if err != nil {
-		fmt.Println("Erro ao tentar impedir a suspensão:", err)
-	}
+	setThreadExecutionState.Call(uintptr(ES_CONTINUOUS | ES_SYSTEM_REQUIRED | ES_DISPLAY_REQUIRED))
 }
+
 // Função que gera todas as combinações possíveis de uma string de comprimento n usando os caracteres fornecidos.
 func generateText(chars string, length int, jobs chan<- string) {
     var generate func(prefix string, length int)

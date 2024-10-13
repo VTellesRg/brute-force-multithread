@@ -31,3 +31,35 @@ Tempo de processamento: 4h7m2.7540097s
 2)
 Senha: -ZrTbD
 Tempo de processamento: 11h10m20.4480972s
+
+Ryzen 3500x 6 nucleos
+5 dígitos:
+1)Hash: a3a5475a60b1bf181b94460241809faf
+Senha: sr-fi
+Tempo de processamento: 8m27.858207s
+
+
+2)Hash: 5fd2524092de9576f7341dc9aa5a53ae
+Senha: 12024
+Tempo de processamento: 24.7417079s
+
+
+3)Hash: bbf974677b6ea1e63f588d913925bd04
+Senha: TcI24
+Tempo de processamento: 13m13.7766786s
+
+
+4)Hash: 1b4b1591aa317dd49a5a99dd06b19892
+Senha: #Sem2
+Tempo de processamento: 2m36.3828378s
+
+6 dígitos:
+1)Hash: f48735a5c532357c2df560edfc53cb41
+Senha: BruteF
+Tempo de processamento: 11h14m0.2530843s
+
+
+2)Hash: c069c0a80e30f2e69de5e0209f7196e4
+Senha: -ZrTbD
+Tempo de processamento: 4h8m18.1115428s
+

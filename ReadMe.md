@@ -71,3 +71,18 @@ Go é uma excelente escolha para um script de força bruta multithread por vári
 
 A combinação desses fatores faz de Go uma escolha ideal para scripts que exigem alta performance e execução paralela, como um ataque de força bruta multithread.
 
+## Refatoração v0.2
+
+### Alterações realizadas para essa versão:
+- Receber input de todos os hashs ao iniciar o programa como solicitado o exercício
+- Correção do dicionário de dados, pois gera uma diferença com relação ao resultado dos colegas
+- Formato do dicionário alterado para um array, supostamente torna o processamento um pouco mais rápido
+- Função para impedir o computador de entrar em suspensão, supostamente caso o computador entre em suspensão o processamento pode ser interrompido
+
+## Conclusão
+
+A ordem do dicionário de dados afeta diretamente o processamento de senhas, para uma aplicação real do código seria válido ordenar o dicionário de forma inteligente. outro fator interessante é a semelhança de processamento entre um processador de 12 núcleos de laptop e um de 6 núcleos de desktop. neste projeto também foi realizada uma branch com prefixo de caracter especial e numérico, porém não identifiquei melhora na velocidade de processamento.
+
+### Melhor caminho para otimizar o processamento de brute force
+
+Por fim, com base em tudo que estudei para otimizar esse script, concluo que o melhor caminho para tornar o processamento mais rápido é a utilização dos núcleos da GPU para o processamento, porém não foi possível a implementação por incompatibilidade da minha GPU com softwares e bibliotecas disponíveis hoje em dia, por questões de modelo e fabricante (AMD Radeon RX550).

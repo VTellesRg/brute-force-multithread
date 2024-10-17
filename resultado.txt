@@ -63,3 +63,15 @@ Tempo de processamento: 11h14m0.2530843s
 Senha: -ZrTbD
 Tempo de processamento: 4h8m18.1115428s
 
+10 nucleos processador intel vpro 3.4GHz
+
+6 dígitos: 
+Hash: f48735a5c532357c2df560edfc53cb41
+Senha: BruteF
+Tempo de processamento: 7h44m50.3749886s
+
+
+Hash: c069c0a80e30f2e69de5e0209f7196e4
+Senha: -ZrTbD
+Tempo de processamento: 3h2m48.58s
+

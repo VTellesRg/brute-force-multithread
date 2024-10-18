@@ -81,7 +81,7 @@ A combinação desses fatores faz de Go uma escolha ideal para scripts que exige
 
 ## Conclusão
 
-A ordem do dicionário de dados afeta diretamente o processamento de senhas, para uma aplicação real do código seria válido ordenar o dicionário de forma inteligente. outro fator interessante é a semelhança de processamento entre um processador de 12 núcleos de laptop e um de 6 núcleos de desktop. neste projeto também foi realizada uma branch com prefixo de caracter especial e numérico, porém não identifiquei melhora na velocidade de processamento.
+A ordem do dicionário de dados afeta diretamente o processamento de senhas, para uma aplicação real do código seria válido ordenar o dicionário de forma inteligente. neste projeto também foi realizada uma branch com prefixo de caracter especial e numérico, porém não identifiquei melhora na velocidade de processamento.
 
 ### Melhor caminho para otimizar o processamento de brute force
 
